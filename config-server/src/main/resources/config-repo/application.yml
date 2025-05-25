@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: config-server-test
+
+test:
+  property: "This is a test property"
