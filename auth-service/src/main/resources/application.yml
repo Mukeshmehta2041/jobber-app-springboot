@@ -28,7 +28,22 @@ eureka:
 
 jwt:
   secret: your-secret-key-here-make-it-long-and-secure-in-production
-  expiration: 86400000 # 24 hours in milliseconds
+  access-token:
+    expiration: 15 # 15 minutes
+  refresh-token:
+    expiration: 10080 # 7 days in minutes
+
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: method
+    tagsSorter: alpha
+    tryItOutEnabled: true
+    filter: true
+  packages-to-scan: com.jobber.auth.controller
 
 management:
   endpoints:
