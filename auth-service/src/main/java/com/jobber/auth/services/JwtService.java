@@ -15,7 +15,7 @@ public class JwtService {
     private static final long EXPIRATION_TIME = 1000 * 60 * 60 * 24; // 24 hours
     private static final String SECRET_KEY = "mySuperSecretKeyForJWTGenerationThatShouldBeVerySecure!";
 
-    private Key getSigningKey() {
+    public Key getSigningKey() {
         return Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
     }
 
@@ -41,7 +41,7 @@ public class JwtService {
         return extractClaim(token, Claims::getExpiration);
     }
 
-    private boolean isTokenExpired(String token) {
+    public boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
 
@@ -51,7 +51,7 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
 
-    private Claims extractAllClaims(String token) {
+    public Claims extractAllClaims(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(getSigningKey())
                 .build()
