@@ -79,4 +79,15 @@ public class AuthServiceImpl implements AuthService {
                 .token(token)
                 .build();
     }
+
+    @Override
+    public AuthResponse getByUserName(String username) {
+        Auth auth = authRepository.findByUsername(username);
+        if (auth == null) {
+            throw new ResourceNotFoundException("User not found");
+        }
+        return AuthResponse.builder()
+                .userId(auth.getId())
+                .build();
+    }
 }

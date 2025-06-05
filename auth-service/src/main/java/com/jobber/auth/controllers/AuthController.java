@@ -6,10 +6,7 @@ import com.jobber.auth.domain.dtos.response.AuthResponse;
 import com.jobber.auth.services.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -25,5 +22,10 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest loginRequest){
         return ResponseEntity.ok(authService.login(loginRequest)); 
+    }
+
+    @GetMapping("/user-info/{username}")
+    public ResponseEntity<AuthResponse> getUserInfo(@PathVariable String username){
+        return ResponseEntity.ok(authService.getByUserName(username));
     }
 }

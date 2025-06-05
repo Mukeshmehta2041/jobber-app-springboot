@@ -4,6 +4,7 @@ server:
 spring:
   application:
     name: api-gateway
+
   cloud:
     gateway:
       discovery:
@@ -22,12 +23,15 @@ spring:
         - id: user-service
           uri: lb://USER-SERVICE
           predicates:
-            - Path=/api/users/**
+            - Path=/api/v1/users/**
           filters:
-            - StripPrefix=1
+            - StripPrefix=0
+            - AddRequestHeader=X-Api-Gateway-Token, JslbACjJYfqH5SmXRe7VH42CvX26J0zkqXJvVWTsw7Y=
 
 eureka:
   client:
+    register-with-eureka: true   # ✅ Ensures this gateway registers itself
+    fetch-registry: true         # ✅ Ensures this gateway fetches other services
     service-url:
       defaultZone: http://localhost:8761/eureka/
   instance:
@@ -41,3 +45,6 @@ management:
   endpoint:
     health:
       show-details: always
+
+jwt:
+  secret: mySuperSecretKeyForJWTGenerationThatShouldBeVerySecure!

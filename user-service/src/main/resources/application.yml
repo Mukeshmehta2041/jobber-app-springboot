@@ -34,3 +34,7 @@ management:
   endpoint:
     health:
       show-details: always
+
+api:
+  gateway:
+    secret: JslbACjJYfqH5SmXRe7VH42CvX26J0zkqXJvVWTsw7Y=

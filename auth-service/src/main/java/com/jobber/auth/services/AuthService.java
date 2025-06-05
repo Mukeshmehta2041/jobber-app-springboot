@@ -7,4 +7,5 @@ import com.jobber.auth.domain.dtos.response.AuthResponse;
 public interface AuthService {
     AuthResponse register(SignUpRequest signUpRequest);
     AuthResponse login(LoginRequest loginRequest);
+    AuthResponse getByUserName(String username);
 }
