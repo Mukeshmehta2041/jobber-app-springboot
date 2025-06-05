@@ -14,9 +14,10 @@ spring:
         - id: auth-service
           uri: lb://AUTH-SERVICE
           predicates:
-            - Path=/api/auth/**
+            - Path=/api/v1/auth/**
           filters:
-            - StripPrefix=1
+            - StripPrefix=0
+            - AddRequestHeader=X-Api-Gateway-Token, JslbACjJYfqH5SmXRe7VH42CvX26J0zkqXJvVWTsw7Y=
 
         - id: user-service
           uri: lb://USER-SERVICE
