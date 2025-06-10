@@ -3,7 +3,7 @@ version: "3.8"
 services:
   postgres:
     image: postgres:15
-    container_name: jobber-postgres-prod
+    # container_name: jobber-postgres-prod
     environment:
       POSTGRES_DB: jobber_prod
       POSTGRES_USER: ${POSTGRES_USER}
@@ -65,7 +65,7 @@ services:
     build:
       context: ./auth-service
       dockerfile: Dockerfile
-    container_name: jobber-auth-service-prod
+    # container_name: jobber-auth-service-prod
     ports:
       - "8081:8081"
     environment:
@@ -95,7 +95,7 @@ services:
     build:
       context: ./user-service
       dockerfile: Dockerfile
-    container_name: jobber-user-service-prod
+    # container_name: jobber-user-service-prod
     ports:
       - "8082:8082"
     environment:
@@ -124,7 +124,7 @@ services:
     build:
       context: ./api-gateway
       dockerfile: Dockerfile
-    container_name: jobber-api-gateway-prod
+    # container_name: jobber-api-gateway-prod
     ports:
       - "8080:8080"
     environment:

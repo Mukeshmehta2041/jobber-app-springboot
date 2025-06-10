@@ -1,0 +1,61 @@
+pipeline {
+    agent any
+
+    tools {
+        dockerTool 'Docker' 
+        maven 'Maven' 
+    }
+
+
+    environment {
+        IMAGE_NAME = 'mukeshkr24/jobber-springboot-web-auth-service'
+        IMAGE_TAG = "stable-${BUILD_NUMBER}"
+    }
+
+    stages {
+
+        stage('Cleanup Workspace') {
+            steps {
+                cleanWs()
+            }
+        }
+
+        stage("Prepare Environment") {
+            steps {
+                git branch: 'main', credentialsId: 'github', url: 'https://github.com/Mukeshmehta2041/jobber-app-springboot.git'
+            }
+        }
+
+        stage("Build Spring Boot App") {
+            steps {
+                dir('auth-service') {
+                    sh 'mvn clean package -DskipTests'
+                }
+            }
+        }
+
+        stage("Build and Push Docker Image") {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                    script {
+                        sh """
+                            docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+                            docker build -t $IMAGE_NAME -f auth-service/Dockerfile .
+                            docker tag $IMAGE_NAME $IMAGE_NAME:$IMAGE_TAG
+                            docker tag $IMAGE_NAME $IMAGE_NAME:stable
+                            docker push $IMAGE_NAME:$IMAGE_TAG
+                            docker push $IMAGE_NAME:stable
+                        """
+                    }
+                }
+            }
+        }
+
+        stage('Clean Docker Images from Local') {
+            steps {
+                sh "docker rmi $IMAGE_NAME:$IMAGE_TAG || true"
+                sh "docker rmi $IMAGE_NAME:stable || true"
+            }
+        }
+    }
+}
