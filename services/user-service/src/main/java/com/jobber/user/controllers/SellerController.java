@@ -1,6 +1,5 @@
 package com.jobber.user.controllers;
 
-
 import com.jobber.user.dtos.requests.SellerCreateRequest;
 import com.jobber.user.dtos.responses.SellerResponse;
 import com.jobber.user.mappers.SellerMapper;
@@ -17,13 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class SellerController {
 
-    private final SellerService sellerService;
-    private final SellerMapper sellerMapper = Mappers.getMapper(SellerMapper.class);
+  private final SellerService sellerService;
 
-    public ResponseEntity<SellerResponse> createSeller(SellerCreateRequest request){
-        Seller sellerData = sellerMapper.toModel(request);
-        Seller createdSeller = sellerService.create(sellerData);
-        SellerResponse sellerResponse = sellerMapper.toResponse(createdSeller);
-        return ResponseEntity.ok(sellerResponse);
-    }
+  public ResponseEntity<SellerResponse> createSeller(SellerCreateRequest request) {
+    // Seller sellerData = sellerMapper.toModel(request);
+    // Seller createdSeller = sellerService.create(sellerData);
+    // SellerResponse sellerResponse = sellerMapper.toResponse(createdSeller);
+    // return ResponseEntity.ok(sellerResponse);
+    return null;
+  }
 }

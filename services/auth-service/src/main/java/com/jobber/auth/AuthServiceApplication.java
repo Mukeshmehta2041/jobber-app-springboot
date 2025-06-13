@@ -7,7 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@ComponentScan(basePackages = {"com.jobber.auth", "com.jobber.common.filters"})
+@ComponentScan(basePackages = { "com.jobber.auth", "com.jobber.common.filters" })
 public class AuthServiceApplication {
   public static void main(String[] args) {
     SpringApplication.run(AuthServiceApplication.class, args);
