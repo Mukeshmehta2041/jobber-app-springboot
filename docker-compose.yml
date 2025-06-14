@@ -1,0 +1,115 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: jobber-postgres-dev
+    environment:
+      POSTGRES_DB: jobber_dev
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data_dev:/var/lib/postgresql/data
+    networks:
+      - jobber-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  service-registry:
+    build:
+      context: ./services
+      dockerfile: service-registry/Dockerfile
+    image: jobberapp/service-registry
+    container_name: service-registry
+    ports:
+      - "8761:8761"
+    networks:
+      - jobber-network
+
+  auth-service:
+    build:
+      context: ./services
+      dockerfile: auth-service/Dockerfile
+    image: mukeshkr24/jobberapp-auth-service
+    container_name: auth-service
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://service-registry:8761/eureka
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/jobber_dev
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+    depends_on:
+      - postgres
+      - service-registry
+    networks:
+      - jobber-network
+
+  # Uncomment and configure these as needed
+
+  # config-server:
+  #   build:
+  #     context: ./services
+  #     dockerfile: config-server/Dockerfile
+  #   image: jobberapp/config-server
+  #   container_name: config-server
+  #   ports:
+  #     - "8888:8888"
+  #   environment:
+  #     SPRING_PROFILES_ACTIVE: dev
+  #     EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://service-registry:8761/eureka
+  #   depends_on:
+  #     - service-registry
+  #   networks:
+  #     - jobber-network
+
+  # api-gateway:
+  #   build:
+  #     context: ./services
+  #     dockerfile: api-gateway/Dockerfile
+  #   image: jobberapp/api-gateway
+  #   container_name: api-gateway
+  #   ports:
+  #     - "8080:8080"
+  #   environment:
+  #     SPRING_PROFILES_ACTIVE: dev
+  #     EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://service-registry:8761/eureka
+  #     CONFIG_SERVER_URL: http://config-server:8888
+  #   depends_on:
+  #     - auth-service
+  #     - user-service
+  #     - config-server
+  #     - service-registry
+  #   networks:
+  #     - jobber-network
+
+  # user-service:
+  #   build:
+  #     context: ./services
+  #     dockerfile: user-service/Dockerfile
+  #   image: jobberapp/user-service
+  #   container_name: user-service
+  #   ports:
+  #     - "8082:8082"
+  #   environment:
+  #     SPRING_PROFILES_ACTIVE: dev
+  #     EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://service-registry:8761/eureka
+  #     CONFIG_SERVER_URL: http://config-server:8888
+  #   depends_on:
+  #     - config-server
+  #     - service-registry
+  #   networks:
+  #     - jobber-network
+
+networks:
+  jobber-network:
+    driver: bridge
+
+volumes:
+  postgres_data_dev:
