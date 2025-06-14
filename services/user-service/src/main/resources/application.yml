@@ -2,19 +2,30 @@ server:
   port: 8082
 
 spring:
-  data:
-    mongodb:
-      uri: mongodb://mongo:mongo@localhost:27017/jobber_mongo
-      database: jobber_mongo
   application:
     name: user-service
+  
+  datasource:
+    url: jdbc:postgresql://postgres:5432/jobber_dev
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  
+  data:
+    mongodb:
+      uri: mongodb://mongo:mongo@localhost:27017/jobber_mongo?authSource=admin
+      database: jobber_mongo
+      auto-index-creation: true
 
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
   instance:
     prefer-ip-address: true
+    instance-id: ${spring.application.name}:${random.value}
 
 management:
   endpoints:
@@ -24,7 +35,14 @@ management:
   endpoint:
     health:
       show-details: always
+    shutdown:
+      enabled: true
 
 api:
   gateway:
     secret: JslbACjJYfqH5SmXRe7VH42CvX26J0zkqXJvVWTsw7Y=
+
+logging:
+  level:
+    org.springframework.data.mongodb.core.MongoTemplate: DEBUG
+    org.springframework.web: INFO
