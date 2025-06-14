@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-registry
+  namespace: production
+spec:
+  type: ClusterIP
+  selector:
+    app: service-registry
+  ports:
+    - name: eureka
+      port: 8761
+      targetPort: 8761
+      protocol: TCP

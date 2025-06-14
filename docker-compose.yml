@@ -24,7 +24,7 @@ services:
     build:
       context: ./services
       dockerfile: service-registry/Dockerfile
-    image: jobberapp/service-registry
+    image: mukeshkr24/jobberapp-service-registry
     container_name: service-registry
     ports:
       - "8761:8761"
