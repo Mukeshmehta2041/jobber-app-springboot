@@ -7,7 +7,8 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-//@ComponentScan(basePackages = {"com.jobber.user", "com.jobber.common.filters"})
+// @ComponentScan(basePackages = {"com.jobber.user",
+// "com.jobber.common.filters"})
 public class UserServiceApplication {
   public static void main(String[] args) {
     SpringApplication.run(UserServiceApplication.class, args);
