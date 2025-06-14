@@ -1,4 +1,4 @@
-package com.jobber.user.services;
+package com.jobber.user.services.seller;
 
 import java.util.List;
 

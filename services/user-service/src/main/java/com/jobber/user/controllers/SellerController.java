@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.jobber.user.dtos.requests.SellerCreateRequest;
 import com.jobber.user.dtos.responses.SellerResponse;
-import com.jobber.user.services.SellerService;
+import com.jobber.user.services.seller.SellerService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
