@@ -9,6 +9,8 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.jobber.common.exceptions.ConflictException;
+import com.jobber.common.exceptions.NotFoundException;
 import com.jobber.user.dtos.requests.SellerCreateRequest;
 import com.jobber.user.dtos.responses.SellerResponse;
 import com.jobber.user.mappers.SellerMapper;
@@ -38,7 +40,7 @@ public class SellerServiceImpl implements SellerService {
     log.info("Creating seller: {}", request);
 
     if (sellerRepository.existsByEmail(request.getEmail())) {
-      throw new RuntimeException("Seller already exists");
+      throw new ConflictException("Seller already exists");
     }
 
     Seller newSeller = sellerMapper.toSeller(request);
@@ -56,7 +58,7 @@ public class SellerServiceImpl implements SellerService {
   public SellerResponse getSellerById(String sellerId) {
     log.info("Getting seller by id: {}", sellerId);
     Seller seller = sellerRepository.findById(sellerId)
-        .orElseThrow(() -> new RuntimeException("Seller not found"));
+        .orElseThrow(() -> new NotFoundException("Seller not found"));
     return sellerMapper.toSellerResponse(seller);
   }
 
@@ -67,7 +69,7 @@ public class SellerServiceImpl implements SellerService {
   public SellerResponse getSellerByUsername(String username) {
     log.info("Getting seller by username: {}", username);
     Seller seller = sellerRepository.findByUsername(username)
-        .orElseThrow(() -> new RuntimeException("Seller not found"));
+        .orElseThrow(() -> new NotFoundException("Seller not found"));
     return sellerMapper.toSellerResponse(seller);
   }
 
@@ -80,7 +82,7 @@ public class SellerServiceImpl implements SellerService {
     List<Seller> allSellers = sellerRepository.findAll();
 
     if (allSellers.isEmpty()) {
-      throw new RuntimeException("No sellers available");
+      throw new NotFoundException("No sellers available");
     }
 
     // Ensure we don't request more sellers than available
