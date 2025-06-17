@@ -4,13 +4,14 @@ server:
 spring:
   application:
     name: config-server
-  profiles:
-    active: native
   cloud:
     config:
       server:
-        native:
-          search-locations: classpath:/config-repo
+        git:
+          uri: ${CONFIG_GIT_URI:https://github.com/your-org/jobber-config.git}
+          default-label: ${CONFIG_GIT_BRANCH:main}
+          clone-on-start: true
+          search-paths: '{application}'
 
 management:
   endpoints:

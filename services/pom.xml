@@ -10,12 +10,12 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>api-gateway</module>
+        <module>common</module>
+        <module>config-server</module>
+        <module>service-registry</module>
         <module>auth-service</module>
         <module>user-service</module>
-        <module>service-registry</module>
-        <module>config-server</module>
-        <module>common</module>
+        <module>api-gateway</module>
     </modules>
 
     <properties>
@@ -25,6 +25,8 @@
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <lombok.version>1.18.30</lombok.version>
         <jwt.version>0.11.5</jwt.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
 
     <dependencyManagement>

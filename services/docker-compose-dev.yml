@@ -60,16 +60,15 @@ services:
   # Spring Cloud Services
   config-server:
     build:
-      context: ..
-      dockerfile: services/config-server/Dockerfile
+      context: .
+      dockerfile: config-server/Dockerfile
     container_name: jobber-config-server
     environment:
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-docker}
-      SPRING_CLOUD_CONFIG_SERVER_GIT_URI: ${CONFIG_GIT_URI:-https://github.com/your-org/jobber-config.git}
-      SPRING_CLOUD_CONFIG_SERVER_GIT_DEFAULT_LABEL: ${CONFIG_GIT_BRANCH:-main}
+      CONFIG_GIT_URI: ${CONFIG_GIT_URI:-https://github.com/your-org/jobber-config.git}
+      CONFIG_GIT_BRANCH: ${CONFIG_GIT_BRANCH:-main}
       SPRING_SECURITY_USER_NAME: ${CONFIG_SERVER_USERNAME:-configuser}
       SPRING_SECURITY_USER_PASSWORD: ${CONFIG_SERVER_PASSWORD:-configpass}
-      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://service-registry:8761/eureka/
     ports:
       - "8888:8888"
     healthcheck:
@@ -83,17 +82,14 @@ services:
 
   service-registry:
     build:
-      context: ..
-      dockerfile: services/service-registry/Dockerfile
+      context: .
+      dockerfile: service-registry/Dockerfile
     container_name: jobber-service-registry
     environment:
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-docker}
       SPRING_CLOUD_CONFIG_URI: http://config-server:8888
       SPRING_CLOUD_CONFIG_USERNAME: ${CONFIG_SERVER_USERNAME:-configuser}
       SPRING_CLOUD_CONFIG_PASSWORD: ${CONFIG_SERVER_PASSWORD:-configpass}
-      EUREKA_CLIENT_REGISTER_WITH_EUREKA: false
-      EUREKA_CLIENT_FETCH_REGISTRY: false
-      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://localhost:8761/eureka/
     ports:
       - "8761:8761"
     depends_on:
@@ -111,8 +107,8 @@ services:
   # Business Services
   auth-service:
     build:
-      context: ./auth-service
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: auth-service/Dockerfile
     container_name: jobber-auth-service
     environment:
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-docker}
@@ -145,8 +141,8 @@ services:
 
   user-service:
     build:
-      context: ./user-service
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: user-service/Dockerfile
     container_name: jobber-user-service
     environment:
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-docker}
@@ -175,8 +171,8 @@ services:
 
   api-gateway:
     build:
-      context: ./api-gateway
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: api-gateway/Dockerfile
     container_name: jobber-api-gateway
     environment:
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-docker}

@@ -135,3 +135,4 @@ jspm_packages/
 .env.test.local
 .env.production.local 
 .cursorrules
+scripts/minikube-linux-amd64
