@@ -23,7 +23,7 @@ chmod +x minikube-linux-amd64
 sudo install minikube-linux-amd64 /usr/local/bin/minikube
 
 echo "🚀 Starting Minikube with Docker driver..."
-minikube start --driver=docker
+minikube start --driver=docker --force
 
 echo "✅ Minikube is set up and running!"
 kubectl get nodes
